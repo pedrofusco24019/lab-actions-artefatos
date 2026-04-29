@@ -15,13 +15,13 @@ jobs:
   job_gerador:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
+      - name: Checkout do codigo
         uses: actions/checkout@v4
 
       - name: Simular Build
         run: |
           mkdir saida_build
-          echo "Relatorio 1: Gerado por Pedro Fusco" > saida_build/relatorio1.txt
+          echo "Relatorio 1: Gerado por Pedro" > saida_build/relatorio1.txt
           echo "Relatorio 2: Status OK" > saida_build/relatorio2.txt
 
       - name: Upload de Artefatos
@@ -39,7 +39,7 @@ jobs:
         with:
           name: meus-relatorios-oficiais
 
-      - name: Validar Sobrevivência
+      - name: Validar Sobrevivencia
         run: |
           ls -R
           cat relatorio1.txt
