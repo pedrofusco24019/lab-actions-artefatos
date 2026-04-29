@@ -1,0 +1,45 @@
+name: Pipeline Inteligente
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
+  push:
+    branches:
+      - 'feature/**'
+    paths:
+      - 'src/**'
+      - '!src/docs/**'
+
+jobs:
+  job_gerador:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Simular Build
+        run: |
+          mkdir saida_build
+          echo "Relatorio 1: Gerado por Pedro Fusco" > saida_build/relatorio1.txt
+          echo "Relatorio 2: Status OK" > saida_build/relatorio2.txt
+
+      - name: Upload de Artefatos
+        uses: actions/upload-artifact@v4
+        with:
+          name: meus-relatorios-oficiais
+          path: saida_build/
+
+  job_auditoria:
+    runs-on: ubuntu-latest
+    needs: job_gerador
+    steps:
+      - name: Download de Artefatos
+        uses: actions/download-artifact@v4
+        with:
+          name: meus-relatorios-oficiais
+
+      - name: Validar Sobrevivência
+        run: |
+          ls -R
+          cat relatorio1.txt
